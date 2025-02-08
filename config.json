@@ -1,0 +1,17 @@
+{
+    "project_dir": "C:\\Users\\swapn\\Downloads\\Magazine Automation\\LA 01\\Stylecruze_label me",
+    "template_file": "template.indd",
+    "credits_file": "Credits.txt",
+    "layout_mode": "single",
+    "credits_font": "Blackadder ITC\tRegular",
+    "credits_font_size": 24,
+    "indesign_exe": "C:\\Program Files\\Adobe\\Adobe InDesign 2025\\InDesign.exe",
+    "text_frame_top_left": [
+        594,
+        136
+    ],
+    "text_frame_bottom_right": [
+        1224,
+        963
+    ]
+}
