@@ -1,0 +1,16 @@
+{
+    "project_dir": "C:/Users/swapn/Downloads/Magazine Automation/Templates/Fashion",
+    "template_file": "template.indd",
+    "credits_file": "Credits.txt",
+    "credits_font": "Blackadder ITC\tRegular",
+    "credits_font_size": 24,
+    "text_box_position": "bottom_center",
+    "text_frame_top_left_ratio": [
+        0.2989583333333333,
+        0.10833333333333334
+    ],
+    "text_frame_bottom_right_ratio": [
+        0.6447916666666667,
+        0.9027777777777778
+    ]
+}

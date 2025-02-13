@@ -1,0 +1,16 @@
+{
+    "project_dir": "C:/Users/swapn/Downloads/Magazine Automation/Templates/Stylecruze_label me",
+    "template_file": "template.indd",
+    "credits_file": "Credits.txt",
+    "credits_font": "Blackadder ITC\tRegular",
+    "credits_font_size": 24,
+    "text_box_position": "bottom_center",
+    "text_frame_top_left_ratio": [
+        0.3020833333333333,
+        0.1111111111111111
+    ],
+    "text_frame_bottom_right_ratio": [
+        0.6432291666666666,
+        0.8888888888888888
+    ]
+}

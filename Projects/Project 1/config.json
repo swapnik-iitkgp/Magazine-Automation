@@ -1,0 +1,32 @@
+{
+    "project_dir": "C:/Users/swapn/Downloads/Magazine Automation/Projects/Project 1",
+    "template_file": "template.indd",
+    "credits_file": "Credits.txt",
+    "target_page": 8,
+    "split_page": 8,
+    "credits_font": [
+        "Blackadder ITC\tRegular",
+        "Arial\tRegular"
+    ],
+    "credits_colors": [
+        "Black",
+        "Red",
+        "Blue",
+        "Green",
+        "Yellow"
+    ],
+    "credits_font_size": 24,
+    "text_box_position": [
+        "bottom_center"
+    ],
+    "layouts": [
+        "single",
+        "double",
+        "four"
+    ],
+    "layout_probabilities": {
+        "single": 0.3,
+        "double": 0.4,
+        "four": 0.3
+    }
+}

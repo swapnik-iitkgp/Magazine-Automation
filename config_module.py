@@ -22,5 +22,5 @@ if __name__ == "__main__":
     cfg_path = "config.json"
     cfg = load_config(cfg_path)
     # For demonstration, ensure we have a template_file key
-    cfg["template_file"] = "template.indd"
+    cfg.setdefault("template_file", "template.indd")
     save_config(cfg, cfg_path)
