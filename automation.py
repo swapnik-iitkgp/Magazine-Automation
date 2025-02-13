@@ -10,6 +10,10 @@ import numpy as np
 import win32com.client
 import pywintypes
 
+
+pyautogui.FAILSAFE = False
+
+
 from get_split import split_template
 from merge_indd import merge_indd_files
 from config_module import load_config, save_config
@@ -327,6 +331,10 @@ def insert_text_frame_and_type(text_content, drag_start, drag_end, click_point, 
 # PROCESSING IMAGES PER MODEL FOLDER
 ########################################
 
+
+import pyautogui
+import time
+
 def place_model_images(doc, model_folder, config, target_page=None):
     """
     Process images from a model folder and place them on pages.
@@ -393,12 +401,69 @@ def place_model_images(doc, model_folder, config, target_page=None):
             rect = page.Rectangles.Add()
             rect.GeometricBounds = frame_bounds
             try:
-                rect.FrameFittingOptions.AutoFit = False
                 rect.Place(image_path)
-                rect.Graphics.Item(1).Fit()
+                # Removed the Fit() call so the image fills the frame:
+                # rect.Graphics.Item(1).Fit()
             except Exception as e:
-                print(f"[ERROR] Placing/fitting image {image_path}: {e}")
+                print(f"[ERROR] Placing image {image_path}: {e}")
             image_index += 1
+
+        # --- Before filling images on this page, click just outside the page region ---
+        # Get page's top-left and bottom-right based on ratios in config
+        region_top_left = config["text_frame_top_left_ratio"]
+        region_bottom_right = config["text_frame_bottom_right_ratio"]
+
+        # Convert ratios to actual pixel coordinates
+        screenshot = pyautogui.screenshot()
+        screen_w, screen_h = screenshot.size  # (width, height)
+
+        left = int(region_top_left[0] * screen_w)
+        top = int(region_top_left[1] * screen_h)
+        right = int(region_bottom_right[0] * screen_w)
+        bottom = int(region_bottom_right[1] * screen_h)
+
+        # Adjust the click position to just outside the page boundary
+        offset = 10  # You can adjust this offset as needed
+        click_x = right + offset  # Click just to the right of the page
+        click_y = top + offset  # Click just below the top-left corner of the page
+
+        # Move the mouse to this adjusted position and click
+        pyautogui.moveTo(click_x, click_y, duration=0.5)
+        pyautogui.click()
+
+        # --- Now press V to switch to the Selection Tool ---
+        pyautogui.press('v')
+
+        # Get the page selection region from config (if it exists)
+        region = retrieve_ratio_region(config)
+        if region is None:
+            ratio_tl, ratio_br = get_region_from_opencv()
+            config["text_frame_top_left_ratio"] = list(ratio_tl)
+            config["text_frame_bottom_right_ratio"] = list(ratio_br)
+            save_config(config, os.path.join(config["project_dir"], "config.json"))
+            region = retrieve_ratio_region(config)
+        (page_tl, page_br) = region
+
+        # Adjust the corners by a few pixels (e.g., 10 pixels)
+        selection_start = (page_tl[0] - offset, page_tl[1] - offset)
+        selection_end = (page_br[0] + offset, page_br[1] + offset)
+
+        # Drag to select all items on the page
+        pyautogui.moveTo(selection_start[0], selection_start[1], duration=0.5)
+        pyautogui.mouseDown()
+        pyautogui.moveTo(selection_end[0], selection_end[1], duration=1)
+        pyautogui.mouseUp()
+        time.sleep(0.5)
+
+        # Apply the fill command via the shortcut (ctrl+alt+shift+C)
+        pyautogui.hotkey('ctrl', 'alt', 'shift', 'c')
+
+        # --- Before adding text, click outside the page region again to deactivate any active frame ---
+        pyautogui.moveTo(click_x, click_y)  # Click outside the page region
+        pyautogui.click()
+
+        # --- Now press T to switch to the Type Tool ---
+        pyautogui.press('t')
 
         if first_page_for_model and credits_text:
             # Compute the text box coordinates based on the credits text.
@@ -417,6 +482,9 @@ def place_model_images(doc, model_folder, config, target_page=None):
             insert_text_frame_and_type(credits_text, box_tl, box_br, click_pt, config, is_first_page=True)
             first_page_for_model = False
 
+
+
+            
 
 def cleanup_indd_files(project_dir, template_file, output_file):
     # Convert to lowercase for case-insensitive comparison.

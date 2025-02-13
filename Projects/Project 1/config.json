@@ -17,7 +17,9 @@
     ],
     "credits_font_size": 24,
     "text_box_position": [
-        "bottom_center"
+        "bottom_center",
+        "top_center",
+        "center"
     ],
     "layouts": [
         "single",
@@ -25,8 +27,16 @@
         "four"
     ],
     "layout_probabilities": {
-        "single": 0.3,
-        "double": 0.4,
-        "four": 0.3
-    }
+        "single": 0.7,
+        "double": 0.2,
+        "four": 0.1
+    },
+    "text_frame_top_left_ratio": [
+        0.29791666666666666,
+        0.10648148148148148
+    ],
+    "text_frame_bottom_right_ratio": [
+        0.6510416666666666,
+        0.9175925925925926
+    ]
 }
